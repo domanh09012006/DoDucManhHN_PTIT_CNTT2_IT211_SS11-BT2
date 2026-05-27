@@ -1,0 +1,25 @@
+PHÂN TÍCH LOGIC - QUẢN LÝ TỒN KHO
+
+Phần 1 - Phân tích logic
+Số lỗi logic trong updateStock: 2
+
+Sai loại exception khi tồn kho dương không thể dưới 0: thông báo hợp lệ nhưng nên là IllegalArgumentException theo quy tắc nghiệp vụ.
+Không gọi save trên ProductRepository sau khi cập nhật tồn kho, dẫn đến không ghi nhận vào cơ sở dữ liệu.
+
+Nguyên nhân sai lệch tồn kho
+
+Khi không gọi save, thay đổi chỉ nằm trong bộ nhớ, DB không được cập nhật, dẫn đến số liệu sai.
+Trừ số lượng lớn hơn tồn kho sẽ bị chặn nhưng ném sai loại exception, gây nhầm lẫn xử lý nghiệp vụ/validate.
+
+Phần 2 - Test cases đã thực hiện (JUnit 5 + Mockito + AssertJ)
+
+Thêm số lượng hợp lệ cho sản phẩm có sẵn (Happy Path).
+Trừ số lượng hợp lệ cho sản phẩm có sẵn (Happy Path).
+Trừ số lượng lớn hơn tồn kho (Unhappy Path) -> ném IllegalArgumentException và không gọi save.
+Sản phẩm không tồn tại (Unhappy Path) -> ném IllegalArgumentException và không gọi save.
+Kiểm tra save được gọi với số lượng mới sau cập nhật.
+
+Phần 3 - Sửa lỗi
+
+Đổi exception trong trường hợp tồn kho âm thành IllegalArgumentException.
+Gọi productRepository.save(product) sau khi setStockQuantity.
