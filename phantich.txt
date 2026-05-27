@@ -1,0 +1,77 @@
+PHAN TICH LOGIC QUAN LY TON KHO SAN PHAM
+
+1. Loi khi san pham khong ton tai
+
+Code hien tai:
+
+```java
+if (productOpt.isEmpty()) {
+    throw new IllegalArgumentException("Product not found with ID: " + productId);
+}
+```
+
+Doan code nay da xu ly dung truong hop san pham khong ton tai trong he thong.
+
+Neu khong kiem tra dieu kien nay, he thong co the gay loi khi truy cap du lieu cua san pham null.
+
+---
+
+2. Loi cho phep ton kho am
+
+Code hien tai:
+
+```java
+if (newStock < 0) {
+    throw new IllegalStateException("Resulting stock would be negative");
+}
+```
+
+He thong kiem tra ton kho am, tuy nhien loai exception chua phu hop voi nghiep vu.
+
+Theo yeu cau:
+
+* khong duoc phep tru qua so luong ton kho hien co
+* day la loi du lieu dau vao
+
+Vi vay nen dung:
+
+```java
+IllegalArgumentException
+```
+
+thay vi:
+
+```java
+IllegalStateException
+```
+
+---
+
+3. Loi khong luu thay doi vao database
+
+Code hien tai:
+
+```java
+// productRepository.save(product);
+```
+
+He thong da cap nhat so luong ton kho trong object Product, nhung lai quen goi save() de luu vao database.
+
+Dieu nay dan den:
+
+* du lieu trong bo nho thay doi
+* database khong duoc cap nhat
+* ton kho thuc te bi sai lech
+
+Day la loi logic nghiem trong nhat trong phuong thuc updateStock.
+
+---
+
+4. Tong ket loi logic
+
+Phuong thuc updateStock co 2 loi logic chinh:
+
+* Su dung exception chua phu hop khi ton kho bi am
+* Quen goi productRepository.save(product) de luu thay doi vao database
+
+Ngoai ra, he thong da xu ly dung truong hop san pham khong ton tai.
